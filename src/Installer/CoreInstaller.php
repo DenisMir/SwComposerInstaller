@@ -47,7 +47,7 @@ class CoreInstaller extends LibraryInstaller
      */
     protected function installCode(PackageInterface $package)
     {
-        $this->io->writeError('<info>Shopware Installer: Installing the code</info>', true, IOInterface::VERBOSE);
+        $this->io->writeError('<info>Shopware Installer: Installing the code</info>', true, IOInterface::QUIET);
         parent::installCode($package);
     }
 
@@ -59,7 +59,7 @@ class CoreInstaller extends LibraryInstaller
      */
     protected function updateCode(PackageInterface $initial, PackageInterface $target)
     {
-        $this->io->writeError('<info>Shopware Installer: Updating the code</info>', true, IOInterface::VERBOSE);
+        $this->io->writeError('<info>Shopware Installer: Updating the code</info>', true, IOInterface::QUIET);
         return parent::updateCode($initial, $target);
     }
 }
