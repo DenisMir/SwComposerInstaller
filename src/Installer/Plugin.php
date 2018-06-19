@@ -11,7 +11,10 @@ use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 
-
+/**
+ * Class Plugin
+ * @package Communiacs\Sw\Composer\Installer
+ */
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
     /**

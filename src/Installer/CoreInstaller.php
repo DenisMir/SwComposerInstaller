@@ -14,22 +14,20 @@ use Composer\Package\PackageInterface;
 class CoreInstaller extends LibraryInstaller
 {
 
+    /**
+     * Shopware installation directory
+     *
+     * @var string
+     */
     protected $installDir;
 
     public function __construct(
         IOInterface $io,
         Composer $composer,
-        Config $pluginConfig = null
+        Config $pluginConfig
     ) {
-        parent::__construct($io, $composer);
-
-        $pluginConfig = $pluginConfig ?: Config::load($composer);
+        parent::__construct($io, $composer, 'shopware-core');
         $this->installDir = $this->filesystem->normalizePath($pluginConfig->get('web-dir'));
-    }
-
-    public function supports($packageType)
-    {
-        return ($packageType === 'shopware-core');
     }
 
     /**
