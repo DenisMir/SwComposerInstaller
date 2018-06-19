@@ -59,6 +59,8 @@ class CoreInstaller extends LibraryInstaller
 
         $backupBaseDir = $this->installDir . '_backup';
 
+        $this->io->writeError('<info>Shopware Installer: Backing up to: ' . $backupBaseDir .'</info>', true, IOInterface::QUIET);
+
         // create backup dir if not existing
         if(! file_exists($backupBaseDir)){
             mkdir($backupBaseDir);
@@ -71,10 +73,14 @@ class CoreInstaller extends LibraryInstaller
 
         parent::installCode($package);
 
+        $this->io->writeError('<info>Shopware Installer: Restoring to: ' . $this->installDir .'</info>', true, IOInterface::QUIET);
 
         // restore files
         foreach($this->composerExcludes as $file){
-            $this->moveComposerExcludes($backupBaseDir . '/' . $file, $this->installDir . '/' . $file );
+            $from = $backupBaseDir . '/' . $file;
+            $to = $this->installDir . '/' . $file;
+            $this->io->writeError('<info>Shopware Installer: Restoring from: ' . $from .' to ' . $to . '</info>', true, IOInterface::QUIET);
+            $this->moveComposerExcludes($from, $to);
         }
 
         // remove backup dir
