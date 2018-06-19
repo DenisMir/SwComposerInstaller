@@ -103,7 +103,11 @@ class CoreInstaller extends LibraryInstaller
             $this->moveComposerExcludes($this->installDir . '/' . $file, $backupBaseDir . '/' . $file );
         }
 
+        $this->io->writeError('<info>Shopware Installer: Updating - Backed up files</info>', true, IOInterface::QUIET);
+
         parent::updateCode($initial, $target);
+
+        $this->io->writeError('<info>Shopware Installer: Updating - Files updated</info>', true, IOInterface::QUIET);
 
         // restore files
         foreach($this->composerExcludes as $file){
@@ -112,6 +116,8 @@ class CoreInstaller extends LibraryInstaller
 
         // remove backup dir
         $this->rrmdir($this->installDir . '_backup');
+
+        $this->io->writeError('<info>Shopware Installer: Updating - Restored files</info>', true, IOInterface::QUIET);
     }
 
     /**
