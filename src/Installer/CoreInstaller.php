@@ -57,34 +57,7 @@ class CoreInstaller extends LibraryInstaller
     {
         $this->io->writeError('<info>Shopware Installer: Installing the code</info>', true, IOInterface::QUIET);
 
-        $backupBaseDir = $this->installDir . '_backup';
-
-        $this->io->writeError('<info>Shopware Installer: Backing up to: ' . $backupBaseDir .'</info>', true, IOInterface::QUIET);
-
-        // create backup dir if not existing
-        if(! file_exists($backupBaseDir)){
-            mkdir($backupBaseDir);
-        }
-
-        // backup files
-        foreach($this->composerExcludes as $file){
-            $this->moveComposerExcludes($this->installDir . '/' . $file, $backupBaseDir . '/' . $file );
-        }
-
         parent::installCode($package);
-
-        $this->io->writeError('<info>Shopware Installer: Restoring to: ' . $this->installDir .'</info>', true, IOInterface::QUIET);
-
-        // restore files
-        foreach($this->composerExcludes as $file){
-            $from = $backupBaseDir . '/' . $file;
-            $to = $this->installDir . '/' . $file;
-            $this->io->writeError('<info>Shopware Installer: Restoring from: ' . $from .' to ' . $to . '</info>', true, IOInterface::QUIET);
-            $this->moveComposerExcludes($from, $to);
-        }
-
-        // remove backup dir
-        $this->rrmdir($this->installDir . '_backup');
     }
 
     /**
@@ -97,33 +70,7 @@ class CoreInstaller extends LibraryInstaller
     {
         $this->io->writeError('<info>Shopware Installer: Updating the code</info>', true, IOInterface::QUIET);
 
-        $backupBaseDir = $this->installDir . '_backup';
-
-        // create backup dir if not existing
-        if(! file_exists($backupBaseDir)){
-            mkdir($backupBaseDir);
-        }
-
-        // backup files
-        foreach($this->composerExcludes as $file){
-            $this->moveComposerExcludes($this->installDir . '/' . $file, $backupBaseDir . '/' . $file );
-        }
-
-        $this->io->writeError('<info>Shopware Installer: Updating - Backed up files</info>', true, IOInterface::QUIET);
-
         parent::updateCode($initial, $target);
-
-        $this->io->writeError('<info>Shopware Installer: Updating - Files updated</info>', true, IOInterface::QUIET);
-
-        // restore files
-        foreach($this->composerExcludes as $file){
-            $this->moveComposerExcludes($backupBaseDir . '/' . $file, $this->installDir . '/' . $file );
-        }
-
-        // remove backup dir
-        $this->rrmdir($this->installDir . '_backup');
-
-        $this->io->writeError('<info>Shopware Installer: Updating - Restored files</info>', true, IOInterface::QUIET);
     }
 
     /**
