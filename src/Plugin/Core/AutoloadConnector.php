@@ -4,7 +4,7 @@ namespace Communiacs\Sw\Composer\Plugin\Core;
 use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\Semver\Constraint\EmptyConstraint;
-use Communiacs\Sw\Composer\Plugin\Util\Filesystem;
+use Composer\Util\Filesystem;
 
 /**
  * Creates a symlink of the central autoload.php file in the vendor directory of the Shopware core package
