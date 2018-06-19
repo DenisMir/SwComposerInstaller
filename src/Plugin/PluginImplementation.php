@@ -27,7 +27,8 @@ class PluginImplementation
         Event $event
     ) {
         $fileSystem = new Filesystem();
-        $this->autoLoadConnector = new AutoloadConnector($event->getIO(), $event->getComposer(), $fileSystem);
+        $this->composer = $event->getComposer();
+        $this->autoLoadConnector = new AutoloadConnector($event->getIO(), $this->composer, $fileSystem);
     }
 
     public function preAutoloadDump()
