@@ -43,7 +43,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function activate(Composer $composer, IOInterface $io)
     {
-        $this->io->writeError('<info>Shopware Installer: Activating the plugin</info>', true, IOInterface::VERBOSE);
+        $io->writeError('<info>Shopware Installer: Activating the plugin</info>', true, IOInterface::VERBOSE);
 
         $this->ensureComposerConstraints($io);
         $pluginConfig = Config::load($composer);
