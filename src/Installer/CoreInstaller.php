@@ -90,7 +90,28 @@ class CoreInstaller extends LibraryInstaller
     protected function updateCode(PackageInterface $initial, PackageInterface $target)
     {
         $this->io->writeError('<info>Shopware Installer: Updating the code</info>', true, IOInterface::QUIET);
-        return parent::updateCode($initial, $target);
+
+        $backupBaseDir = $this->installDir . '_backup';
+
+        // create backup dir if not existing
+        if(! file_exists($backupBaseDir)){
+            mkdir($backupBaseDir);
+        }
+
+        // backup files
+        foreach($this->composerExcludes as $file){
+            $this->moveComposerExcludes($this->installDir . '/' . $file, $backupBaseDir . '/' . $file );
+        }
+
+        parent::updateCode($initial, $target);
+
+        // restore files
+        foreach($this->composerExcludes as $file){
+            $this->moveComposerExcludes($backupBaseDir . '/' . $file, $this->installDir . '/' . $file );
+        }
+
+        // remove backup dir
+        $this->rrmdir($this->installDir . '_backup');
     }
 
     /**
