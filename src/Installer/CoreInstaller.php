@@ -41,4 +41,25 @@ class CoreInstaller extends LibraryInstaller
         return $this->installDir;
     }
 
+    /**
+     * Installs the code
+     * @param PackageInterface $package
+     */
+    protected function installCode(PackageInterface $package)
+    {
+        $this->io->write('Installing code');
+        parent::installCode($package);
+    }
+
+    /**
+     * Updates the code
+     *
+     * @param PackageInterface $initial
+     * @param PackageInterface $target
+     */
+    protected function updateCode(PackageInterface $initial, PackageInterface $target)
+    {
+        $this->io->write('Updating the code');
+        return parent::updateCode($initial, $target);
+    }
 }

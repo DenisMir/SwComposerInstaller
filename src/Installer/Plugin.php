@@ -43,6 +43,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function activate(Composer $composer, IOInterface $io)
     {
+        $io->write('Activating the plugin');
+
         $this->ensureComposerConstraints($io);
         $pluginConfig = Config::load($composer);
         $composer
