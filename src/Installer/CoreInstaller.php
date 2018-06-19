@@ -21,6 +21,13 @@ class CoreInstaller extends LibraryInstaller
      */
     protected $installDir;
 
+    /**
+     * Composer exclude directories
+     *
+     * @var array
+     */
+    protected $composerExcludes;
+
     public function __construct(
         IOInterface $io,
         Composer $composer,
@@ -28,6 +35,7 @@ class CoreInstaller extends LibraryInstaller
     ) {
         parent::__construct($io, $composer, 'shopware-core');
         $this->installDir = $this->filesystem->normalizePath($pluginConfig->get('web-dir'));
+        $this->composerExcludes = $pluginConfig->get('exclude-from-composer');
     }
 
     /**
@@ -48,7 +56,29 @@ class CoreInstaller extends LibraryInstaller
     protected function installCode(PackageInterface $package)
     {
         $this->io->writeError('<info>Shopware Installer: Installing the code</info>', true, IOInterface::QUIET);
+
+        $backupBaseDir = $this->installDir . '_backup';
+
+        // create backup dir if not existing
+        if(! file_exists($backupBaseDir)){
+            mkdir($backupBaseDir);
+        }
+
+        // backup files
+        foreach($this->composerExcludes as $file){
+            $this->moveComposerExcludes($this->installDir . '/' . $file, $backupBaseDir . '/' . $file );
+        }
+
         parent::installCode($package);
+
+
+        // restore files
+        foreach($this->composerExcludes as $file){
+            $this->moveComposerExcludes($backupBaseDir . '/' . $file, $this->installDir . '/' . $file );
+        }
+
+        // remove backup dir
+        $this->rrmdir($this->installDir . '_backup');
     }
 
     /**
@@ -61,5 +91,51 @@ class CoreInstaller extends LibraryInstaller
     {
         $this->io->writeError('<info>Shopware Installer: Updating the code</info>', true, IOInterface::QUIET);
         return parent::updateCode($initial, $target);
+    }
+
+    /**
+     * Moves composer excludes
+     * from source to destination
+     *
+     * @param $source
+     * @param $dest
+     */
+    protected function moveComposerExcludes($source, $dest) {
+        if( is_file($source)){
+            copy($source, $dest);
+            unlink($source);
+        } else if(is_dir($source)) {
+            if(is_dir($dest)) {
+                $this->rrmdir($dest);
+            }
+            mkdir($dest, 0777, true);
+            $dir = new \DirectoryIterator($source);
+            foreach($dir as $fileInfo){
+                if(!$fileInfo->isDot()) {
+                    // recursive call because of subdirs
+                    $this->moveComposerExcludes($source . '/' . $fileInfo->getFilename(), $dest . '/' . $fileInfo->getFilename());
+                }
+            }
+            $this->rrmdir($source);
+        }
+    }
+
+    /**
+     * Remove directory
+     * @param $dir
+     */
+    protected function rrmdir($dir) {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (is_dir($dir."/".$object))
+                        $this->rrmdir($dir."/".$object);
+                    else
+                        unlink($dir."/".$object);
+                }
+            }
+            rmdir($dir);
+        }
     }
 }
