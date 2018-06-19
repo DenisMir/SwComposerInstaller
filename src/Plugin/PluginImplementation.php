@@ -1,0 +1,45 @@
+<?php
+namespace Communiacs\Sw\Composer\Plugin;
+
+use Communiacs\Sw\Composer\Plugin\Core\AutoloadConnector;
+use Composer\Composer;
+use Composer\Script\Event;
+use Composer\Util\Filesystem;
+
+class PluginImplementation
+{
+    /**
+     * @var AutoloadConnector
+     */
+    private $autoLoadConnector;
+
+    /**
+     * @var Composer
+     */
+    private $composer;
+
+    /**
+     * PluginImplementation constructor.
+     *
+     * @param Event $event
+     */
+    public function __construct(
+        Event $event
+    ) {
+        $fileSystem = new Filesystem();
+        $this->autoLoadConnector = new AutoloadConnector($event->getIO(), $event->getComposer(), $fileSystem);
+    }
+
+    public function preAutoloadDump()
+    {
+        if ($this->composer->getPackage()->getName() === 'communiacs/shopware') {
+            // Nothing to do, communiacs/shopware is root package
+            return;
+        }
+    }
+
+    public function postAutoloadDump()
+    {
+        $this->autoLoadConnector->linkAutoLoader();
+    }
+}

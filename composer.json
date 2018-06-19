@@ -1,0 +1,34 @@
+{
+    "name": "communiacs/sw-composer-installer",
+    "version": "1.0.0",
+    "type": "composer-plugin",
+    "license": "GPL-2.0-or-later",
+    "description": "Shopware Installer",
+    "keywords": [
+        "installer", "shopware", "core", "plugin"
+    ],
+    "authors": [
+        {
+            "name": "Denis Mir",
+            "email": "dm@communiacs.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Communiacs\\Sw\\Composer\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.0.0",
+        "composer-plugin-api": "^1.0.0"
+    },
+    "conflict": {
+        "composer/installers": "<1.0.24 || >1.0.24"
+    },
+    "require-dev": {
+        "composer/composer": "^1.2"
+    },
+    "extra": {
+        "class": "Communiacs\\Sw\\Composer\\Installer\\Plugin"
+    }
+}
