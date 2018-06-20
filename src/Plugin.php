@@ -83,6 +83,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             $this->pluginImplementation = new PluginImplementation($event);
         }
 
+        $event->getIO()->writeError('<info>Shopware Installer: Handling event: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
+
         switch ($event->getName()) {
             case ScriptEvents::PRE_AUTOLOAD_DUMP:
                 $this->pluginImplementation->preAutoloadDump();
