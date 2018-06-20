@@ -29,6 +29,6 @@
         "composer/composer": "^1.2"
     },
     "extra": {
-        "class": "Communiacs\\Sw\\Composer\\Installer\\Plugin"
+        "class": "Communiacs\\Sw\\Composer\\Plugin"
     }
 }

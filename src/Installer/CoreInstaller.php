@@ -8,6 +8,10 @@ use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
 
 /**
+ * Installs the shopware package
+ * inside the configured web directory
+ * and keeps files that are already there
+ *
  * Class CoreInstaller
  * @package Communiacs\Sw\Composer\Installer
  */
@@ -55,6 +59,17 @@ class CoreInstaller extends LibraryInstaller
      */
     protected function installCode(PackageInterface $package)
     {
+        $backupDir = $this->installDir . '_backup';
+
+        $this->filesystem->ensureDirectoryExists($backupDir);
+        // backup files
+        foreach($this->composerExcludes as $file){
+            $from = $this->installDir . '/' . $file;
+            $to = $backupDir . '/' . $file;
+
+            $this->moveComposerExcludes($from, $to);
+        }
+
         $this->io->writeError('<info>Shopware Installer: Installing the code</info>', true, IOInterface::QUIET);
 
         parent::installCode($package);

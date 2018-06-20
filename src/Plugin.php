@@ -1,7 +1,8 @@
 <?php
-namespace Communiacs\Sw\Composer\Installer;
+namespace Communiacs\Sw\Composer;
 
 
+use Communiacs\Sw\Composer\Installer\CoreInstaller;
 use Communiacs\Sw\Composer\Plugin\Config;
 use Communiacs\Sw\Composer\Plugin\PluginImplementation;
 use Composer\Composer;
