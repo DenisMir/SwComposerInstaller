@@ -70,7 +70,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     {
         $event->getIO()->writeError('<info>Shopware Installer: Listening for event: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
         $event->getIO()->writeError('<info>Shopware Installer: FILE: ' . __FILE__ . '</info>', true, IOInterface::QUIET);
-        $event->getIO()->writeError('<info>Shopware Installer: FILE: ' . __DIR__ . '</info>', true, IOInterface::QUIET);
+        $event->getIO()->writeError('<info>Shopware Installer: DIR: ' . __DIR__ . '</info>', true, IOInterface::QUIET);
 
         if (!empty($this->handledEvents[$event->getName()])) {
             $event->getIO()->writeError('<info>Shopware Installer: Event already handled: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
@@ -78,7 +78,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         }
         $this->handledEvents[$event->getName()] = true;
         // Plugin has been uninstalled
-        if (!file_exists(__FILE__) || !file_exists(dirname(__DIR__) . '/Plugin/PluginImplementation.php')) {
+        if (!file_exists(__FILE__) || !file_exists(dirname(__DIR__) . '/src/Plugin/PluginImplementation.php')) {
             $event->getIO()->writeError('<info>Shopware Installer: Plugin uninstalled: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
             return;
         }
