@@ -68,6 +68,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function listen(Event $event)
     {
+        $event->getIO()->writeError('<info>Shopware Installer: Listening for event: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
+        $event->getIO()->writeError('<info>Shopware Installer: FILE: ' . __FILE__ . ' Dirname: ' . dirname(__DIR__) . '</info>', true, IOInterface::QUIET);
+
         if (!empty($this->handledEvents[$event->getName()])) {
             $event->getIO()->writeError('<info>Shopware Installer: Event already handled: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
             return;
