@@ -125,7 +125,7 @@ class CoreInstaller extends LibraryInstaller
                     $this->moveComposerExcludes($source . '/' . $fileInfo->getFilename(), $dest . '/' . $fileInfo->getFilename());
                 }
             }
-            $this->rrmdir($source);
+            $this->rmdir($source);
         }
     }
 
@@ -133,7 +133,7 @@ class CoreInstaller extends LibraryInstaller
      * Remove directory
      * @param $dir
      */
-    protected function rrmdir($dir) {
+    protected function rmdir($dir) {
         if (is_dir($dir)) {
             $objects = scandir($dir);
             foreach ($objects as $object) {
