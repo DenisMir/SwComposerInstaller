@@ -47,11 +47,11 @@ class AutoloadConnector
     public function linkAutoLoader()
     {
         if ($this->composer->getPackage()->getName() === 'communiacs/shopware-dev') {
-            $this->io->writeError('<info>Skipping SHOPWARE autoload proxy</info>', true, IOInterface::QUIET);
+            $this->io->writeError('<info>Skipping SHOPWARE autoload proxy</info>', true, IOInterface::VERBOSE);
             return;
         }
 
-        $this->io->writeError('<info>Writing SHOPWARE autoload proxy</info>', true, IOInterface::QUIET);
+        $this->io->writeError('<info>Writing SHOPWARE autoload proxy</info>', true, IOInterface::VERBOSE);
 
         $composerConfig = $this->composer->getConfig();
         $localRepository = $this->composer->getRepositoryManager()->getLocalRepository();

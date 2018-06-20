@@ -6,6 +6,14 @@ use Composer\Composer;
 use Composer\Script\Event;
 use Composer\Util\Filesystem;
 
+/**
+ * Plugin implementation which
+ * handles the different events
+ * the plugin is subscribed to
+ *
+ * Class PluginImplementation
+ * @package Communiacs\Sw\Composer\Plugin
+ */
 class PluginImplementation
 {
     /**

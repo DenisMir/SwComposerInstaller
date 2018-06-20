@@ -44,7 +44,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function activate(Composer $composer, IOInterface $io)
     {
-        $io->writeError('<info>Shopware Installer: Activating the plugin</info>', true, IOInterface::QUIET);
+        $io->writeError('<info>Shopware Installer: Activating the plugin</info>', true, IOInterface::VERBOSE);
 
         $this->ensureComposerConstraints($io);
         $pluginConfig = Config::load($composer);
@@ -68,29 +68,29 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function listen(Event $event)
     {
-        $event->getIO()->writeError('<info>Shopware Installer: Listening for event: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
-        $event->getIO()->writeError('<info>Shopware Installer: FILE: ' . __FILE__ . '</info>', true, IOInterface::QUIET);
-        $event->getIO()->writeError('<info>Shopware Installer: DIR: ' . __DIR__ . '</info>', true, IOInterface::QUIET);
+        $event->getIO()->writeError('<info>Shopware Installer: Listening for event: ' . $event->getName() . '</info>', true, IOInterface::VERBOSE);
+        $event->getIO()->writeError('<info>Shopware Installer: FILE: ' . __FILE__ . '</info>', true, IOInterface::VERY_VERBOSE);
+        $event->getIO()->writeError('<info>Shopware Installer: DIR: ' . __DIR__ . '</info>', true, IOInterface::VERY_VERBOSE);
 
         if (!empty($this->handledEvents[$event->getName()])) {
-            $event->getIO()->writeError('<info>Shopware Installer: Event already handled: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
+            $event->getIO()->writeError('<info>Shopware Installer: Event already handled: ' . $event->getName() . '</info>', true, IOInterface::VERY_VERBOSE);
             return;
         }
         $this->handledEvents[$event->getName()] = true;
         // Plugin has been uninstalled
         if (!file_exists(__FILE__) || !file_exists(dirname(__DIR__) . '/src/Plugin/PluginImplementation.php')) {
-            $event->getIO()->writeError('<info>Shopware Installer: Plugin uninstalled: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
+            $event->getIO()->writeError('<info>Shopware Installer: Plugin uninstalled: ' . $event->getName() . '</info>', true, IOInterface::VERY_VERBOSE);
             return;
         }
 
         // Load the implementation only after updating Composer so that we get
         // the new version of the plugin when a new one was installed
         if (null === $this->pluginImplementation) {
-            $event->getIO()->writeError('<info>Shopware Installer: Creating plugin implementation: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
+            $event->getIO()->writeError('<info>Shopware Installer: Creating plugin implementation: ' . $event->getName() . '</info>', true, IOInterface::VERY_VERBOSE);
             $this->pluginImplementation = new PluginImplementation($event);
         }
 
-        $event->getIO()->writeError('<info>Shopware Installer: Handling event: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
+        $event->getIO()->writeError('<info>Shopware Installer: Handling event: ' . $event->getName() . '</info>', true, IOInterface::VERY_VERBOSE);
 
         switch ($event->getName()) {
             case ScriptEvents::PRE_AUTOLOAD_DUMP:

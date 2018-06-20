@@ -59,6 +59,8 @@ class CoreInstaller extends LibraryInstaller
      */
     protected function installCode(PackageInterface $package)
     {
+        $this->io->writeError('<info>Shopware Installer: Installing the code</info>', true, IOInterface::VERBOSE);
+
         $backupDir = $this->installDir . '_backup';
 
         $this->filesystem->ensureDirectoryExists($backupDir);
@@ -67,12 +69,10 @@ class CoreInstaller extends LibraryInstaller
             $from = $this->installDir . '/' . $file;
             $to = $backupDir . '/' . $file;
 
-            $this->io->writeError('<info>Shopware Installer: Install - Backup ' . $from .' to ' . $to . '</info>', true, IOInterface::QUIET);
+            $this->io->writeError('<info>Shopware Installer: Install - Backup ' . $from .' to ' . $to . '</info>', true, IOInterface::VERY_VERBOSE);
 
             $this->moveComposerExcludes($from, $to);
         }
-
-        $this->io->writeError('<info>Shopware Installer: Installing the code</info>', true, IOInterface::QUIET);
 
         parent::installCode($package);
 
@@ -81,7 +81,7 @@ class CoreInstaller extends LibraryInstaller
             $from = $backupDir . '/' . $file;
             $to = $this->installDir . '/' . $file;
 
-            $this->io->writeError('<info>Shopware Installer: Install - Restore ' . $from .' to ' . $to . '</info>', true, IOInterface::QUIET);
+            $this->io->writeError('<info>Shopware Installer: Install - Restore ' . $from .' to ' . $to . '</info>', true, IOInterface::VERY_VERBOSE);
 
             $this->moveComposerExcludes($from, $to);
         }
@@ -97,7 +97,7 @@ class CoreInstaller extends LibraryInstaller
      */
     protected function updateCode(PackageInterface $initial, PackageInterface $target)
     {
-        $this->io->writeError('<info>Shopware Installer: Updating the code</info>', true, IOInterface::QUIET);
+        $this->io->writeError('<info>Shopware Installer: Updating the code</info>', true, IOInterface::VERBOSE);
 
         parent::updateCode($initial, $target);
     }
