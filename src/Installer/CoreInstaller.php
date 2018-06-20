@@ -86,7 +86,7 @@ class CoreInstaller extends LibraryInstaller
             $this->moveComposerExcludes($from, $to);
         }
 
-        $this->filesystem->rmdir($backupDir);
+        $this->rmdir($backupDir);
     }
 
     /**
