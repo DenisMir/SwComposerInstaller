@@ -69,17 +69,20 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public function listen(Event $event)
     {
         if (!empty($this->handledEvents[$event->getName()])) {
+            $event->getIO()->writeError('<info>Shopware Installer: Event already handled: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
             return;
         }
         $this->handledEvents[$event->getName()] = true;
         // Plugin has been uninstalled
         if (!file_exists(__FILE__) || !file_exists(dirname(__DIR__) . '/Plugin/PluginImplementation.php')) {
+            $event->getIO()->writeError('<info>Shopware Installer: Plugin uninstalled: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
             return;
         }
 
         // Load the implementation only after updating Composer so that we get
         // the new version of the plugin when a new one was installed
         if (null === $this->pluginImplementation) {
+            $event->getIO()->writeError('<info>Shopware Installer: Creating plugin implementation: ' . $event->getName() . '</info>', true, IOInterface::QUIET);
             $this->pluginImplementation = new PluginImplementation($event);
         }
 
