@@ -115,7 +115,7 @@ class CoreInstaller extends LibraryInstaller
             unlink($source);
         } else if(is_dir($source)) {
             if(is_dir($dest)) {
-                $this->rrmdir($dest);
+                $this->rmdir($dest);
             }
             mkdir($dest, 0777, true);
             $dir = new \DirectoryIterator($source);
@@ -139,7 +139,7 @@ class CoreInstaller extends LibraryInstaller
             foreach ($objects as $object) {
                 if ($object != "." && $object != "..") {
                     if (is_dir($dir."/".$object))
-                        $this->rrmdir($dir."/".$object);
+                        $this->rmdir($dir."/".$object);
                     else
                         unlink($dir."/".$object);
                 }
