@@ -67,12 +67,26 @@ class CoreInstaller extends LibraryInstaller
             $from = $this->installDir . '/' . $file;
             $to = $backupDir . '/' . $file;
 
+            $this->io->writeError('<info>Shopware Installer: Install - Backup ' . $from .' to ' . $to . '</info>', true, IOInterface::QUIET);
+
             $this->moveComposerExcludes($from, $to);
         }
 
         $this->io->writeError('<info>Shopware Installer: Installing the code</info>', true, IOInterface::QUIET);
 
         parent::installCode($package);
+
+        // restore files
+        foreach($this->composerExcludes as $file){
+            $from = $backupDir . '/' . $file;
+            $to = $this->installDir . '/' . $file;
+
+            $this->io->writeError('<info>Shopware Installer: Install - Restore ' . $from .' to ' . $to . '</info>', true, IOInterface::QUIET);
+
+            $this->moveComposerExcludes($from, $to);
+        }
+
+        $this->filesystem->rmdir($backupDir);
     }
 
     /**
